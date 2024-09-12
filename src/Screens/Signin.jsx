@@ -1,15 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image, Alert, useColorScheme } from 'react-native';
-// import Path from '../services/Path';
-import { useNavigation } from '@react-navigation/native';
+
 // import { getFCMToken } from '../utils/fcmUtils';
 import LoadingWave from '../Components/LoadingWave';
 import WifiLoader from '../Components/WifiLoader';
 import LoaderLine from '../Components/LoaderLine';
 
 const SignIn = () => {
-  const navigation = useNavigation();
+  // const navigation = useNavigation();
   const [phoneNumber, setPhoneNumber] = useState('');
   const [password, setPassword] = useState('');
   const [token, setToken] = useState('');
@@ -18,7 +17,9 @@ const SignIn = () => {
   const [loader, setLoader] = useState(false);
 
   const colorScheme = useColorScheme();
-
+  const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
+  console.log(API_BASE_URL);
+  
   useEffect(() => {
     // getFCMToken().then((token) => {
     //   setFCMToken(token);
@@ -29,32 +30,7 @@ const SignIn = () => {
 
   const handleSignIn = async () => {
     setLoader(true);
-    try {
-      if (phoneNumber && password) {
-        const response = await "".post("/login", {
-          mobile: phoneNumber,
-          password: password,
-          fcm_token: fcmToken,
-        });
-        if (response.data) {
-          console.log(response.data);
-          await AsyncStorage.setItem('userToken', response.data.token);
-          setToken(response.data.token);
-          navigation.navigate('root');
-          setLoader(false);
-        } else {
-          Alert.alert("Error", "Invalid credentials");
-          setLoader(false);
-        }
-      } else {
-        Alert.alert("Please fill all the fields");
-        setLoader(false);
-      }
-    } catch (error) {
-      console.log(error);
-      Alert.alert("Error", "Invalid credentials");
-      setLoader(false);
-    }
+   
   };
 
   const styles = colorScheme === 'dark' ? darkStyles : lightStyles;
@@ -89,7 +65,7 @@ const SignIn = () => {
         <TouchableOpacity style={styles.button} onPress={handleSignIn}>
           <Text style={styles.buttonText}>Sign In</Text>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate('OtpVerification')} style={styles.notRegistered}>
+        <TouchableOpacity onPress={() => {}} style={styles.notRegistered}>
           <Text style={[styles.buttonText, styles.notRegisteredText]}>Not registered yet!</Text>
         </TouchableOpacity>
       </View>
