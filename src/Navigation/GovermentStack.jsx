@@ -1,9 +1,11 @@
-import { Text, View } from "react-native"
+import { createStackNavigator } from "@react-navigation/stack";
+import HomeScreen from "../Screens/Goverment/HomeScreen";
+const stack = createStackNavigator();
 const GovermentStack = () => {
     return (
-        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: '#BB86FC' }}>
-            <Text style={{ fontSize: 20, fontWeight: 'bold',color: 'white' }}>GovermentStack</Text>
-        </View>
+        <stack.Navigator initialRouteName="Home">
+            <stack.Screen name="Home" component={HomeScreen} options={{ headerShown: false }} />
+        </stack.Navigator>
     )
 }
 
